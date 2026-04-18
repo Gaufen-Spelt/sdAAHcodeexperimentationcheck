@@ -574,3 +574,14 @@ table {
     text-decoration: underline;
     text-decoration-style: dotted;
 }
+
+ul.my-row {
+    list-style: none;
+    padding-left: 0;
+}
+.my-row-item {
+    display: inline-block;
+    max-width: 150px;
+    margin-right: 1em;
+    vertical-align: top;
+}

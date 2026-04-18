@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://aucchen@github.com/aucchen/social_democracy_alternate_history.git"
+    "url": "https://github.com/Gaufen-Spelt/sdAAHcodeexperimentationcheck.git"
   },
   "keywords": [],
   "author": "Autumn Chen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aucchen/social_democracy_alternate_history/issues"
+    "url": "https://github.com/Gaufen-Spelt/sdAAHcodeexperimentationcheck/issues"
   },
-  "homepage": "https://github.com/aucchen/social_democracy_alternate_history",
+  "homepage": "https://github.com/Gaufen-Spelt/sdAAHcodeexperimentationcheck",
   "dependencies": {
-    "dendrynexus": "github:aucchen/dendrynexus",
+    "dendrynexus": "github:Gaufen-Spelt/dendrynexus-experimentados",
     "parliament-svg": "^3.0.0"
   }
 }

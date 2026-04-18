@@ -1,5 +1,5 @@
 title: Otto Wels
-is-pinned-card: true
+is-my-new-row-type: true
 tags: advisor, centrist
 card-image: img/portraits/WelsOtto.jpg
 view-if: wels_advisor = 1

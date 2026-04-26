@@ -9,6 +9,8 @@ if (Q.advisor_action_timer <= 0) {
 } else {
     Q.pinnedCardsDescription = 'Advisors - next action available in ' + Q.advisor_action_timer + ' months.';
 }
+Q.deckDescription = 'Колоды - нажмите на колоду чтобы взять карту.';
+Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
 !}
 max-cards: 3
 
@@ -32,6 +34,8 @@ if (Q.advisor_action_timer <= 0) {
 } else {
     Q.pinnedCardsDescription = 'Advisors - next action available in ' + Q.advisor_action_timer + ' months.';
 }
+Q.deckDescription = 'Колоды - нажмите на колоду чтобы взять карту.';
+Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
 !}
 max-cards: 4
 

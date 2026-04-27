@@ -462,11 +462,28 @@ if (Q.month_actions >= 1) {
     }
 }
 Q.has_event = 0;
-choiceOutput.push({id:root, title:'hi', canChoose:true});
 // check if there are any cards in #event, and then go to main if not.
 var scene = this.game.scenes['post_event.events_choice'];
 var choices = this._compileChoices(scene);
-if (choices && choices[0].title != "Continue...") {
+    if (numChoosable === 0) {
+      // We have no choosable options, so add the default option (NB:
+      // this may take us over the max-choices limit).
+      var root = this.state.rootSceneId;
+      if (root !== this.state.sceneId) {
+        var rootSceneChoose = this.game.scenes[root].chooseIf;
+        if (!rootSceneChoose || this._runPredicate(rootSceneChoose, true)) {
+          choiceOutput.push({id:root, title:'Next...', canChoose:true});
+          ++numChoosable;
+        }
+      }
+    }
+    if (numChoosable > 0) {
+      return choiceOutput;
+    } else {
+      return null;
+    }
+  };
+if (choices && choices[0].title != "Next...") {
     Q.has_event = 1;
 } else {
     has_event = 0;

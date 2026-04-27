@@ -256,7 +256,7 @@
 
 }());
 
-    DendryEngine.prototype._compileChoices = function(scene) {
+    _compileChoices1 = function(scene) {
     assert(scene);
 
     var options = scene.options;

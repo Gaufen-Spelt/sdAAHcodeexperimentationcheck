@@ -485,7 +485,7 @@ if (numChoosable === 0) {
 if (choices && choices[0].title != "Next...") {
     Q.has_event = 1;
 } else {
-    has_event = 0;
+    Q.has_event = 0;
 }
 // pre-load all of the event images
 if (this.ui && this.ui.show_portraits) {

@@ -13,7 +13,7 @@
     ui = dendryUI;
     game = ui.game;
 
-    DendryEngine.prototype._compileNewChoices = function(scene) {
+    DendryEngine.prototype._compileChoices = function(scene) {
     assert(scene);
 
     var options = scene.options;

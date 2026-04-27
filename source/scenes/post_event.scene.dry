@@ -465,7 +465,7 @@ Q.has_event = 0;
 // check if there are any cards in #event, and then go to main if not.
 var scene = this.game.scenes['post_event.events_choice'];
 var choices = this._compileChoices(scene);
-    if (numChoosable === 0) {
+if (numChoosable === 0) {
       // We have no choosable options, so add the default option (NB:
       // this may take us over the max-choices limit).
       var root = this.state.rootSceneId;

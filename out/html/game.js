@@ -256,3 +256,50 @@
 
 }());
 
+    DendryEngine.prototype._compileChoices = function(scene) {
+    assert(scene);
+
+    var options = scene.options;
+    var choiceOutput = [];
+    var numChoosable = 0;
+    if (options !== undefined) {
+
+      var choiceIds = this.__getChoiceIdsFromOptions(options);
+      choiceIds = this.__filterViewable(choiceIds);
+
+      var validChoiceData = this.__getChoiceSelectionData(choiceIds);
+      var minChoices = scene.minChoices || null;
+      var maxChoices = scene.maxChoices || null;
+      validChoiceData = this.__filterByPriority(validChoiceData,
+                                                minChoices, maxChoices);
+
+      // Sort the result into display order.
+      validChoiceData.sort(function(a, b) {
+        return a.order - b.order;
+      });
+
+      // Now we've chosen our selection, get the final displayable data.
+      var data = this.__getChoiceDisplayData(validChoiceData);
+      choiceOutput = data.choices;
+      numChoosable = data.numChoosable;
+    }
+
+    if (numChoosable === 0) {
+      // We have no choosable options, so add the default option (NB:
+      // this may take us over the max-choices limit).
+      var root = this.state.rootSceneId;
+      if (root !== this.state.sceneId) {
+        var rootSceneChoose = this.game.scenes[root].chooseIf;
+        if (!rootSceneChoose || this._runPredicate(rootSceneChoose, true)) {
+          choiceOutput.push({id:root, title:'Next...', canChoose:true});
+          ++numChoosable;
+        }
+      }
+    }
+    if (numChoosable > 0) {
+      return choiceOutput;
+    } else {
+      return null;
+    }
+  };
+

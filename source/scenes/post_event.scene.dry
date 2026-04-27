@@ -482,7 +482,6 @@ if (numChoosable === 0) {
     } else {
       return null;
     }
-  }
 if (choices && choices[0].title != "Next...") {
     Q.has_event = 1;
 } else {

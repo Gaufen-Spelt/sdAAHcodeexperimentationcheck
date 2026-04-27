@@ -462,23 +462,9 @@ if (Q.month_actions >= 1) {
     }
 }
 Q.has_event = 0;
+choiceOutput.push({id:root, title:'hi', canChoose:true});
 // check if there are any cards in #event, and then go to main if not.
 var scene = this.game.scenes['post_event.events_choice'];
-if (numChoosable === 0) {
-  var root = this.state.rootSceneId;
-  if (root !== this.state.sceneId) {
-    var rootSceneChoose = this.game.scenes[root].chooseIf;
-    if (!rootSceneChoose || this._runPredicate(rootSceneChoose, true)) {
-      choiceOutput.push({id:root, title:'ContinI...', canChoose:true});
-      ++numChoosable;
-    }
-  }
-
-  // Custom fallback
-  if (numChoosable === 0) {
-    this.ui.displayContent([{type:'paragraph', content:'hi'}]);
-  }
-}
 var choices = this._compileChoices(scene);
 if (choices && choices[0].title != "Continue...") {
     Q.has_event = 1;

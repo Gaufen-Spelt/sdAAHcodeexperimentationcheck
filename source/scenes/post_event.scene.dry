@@ -464,7 +464,7 @@ if (Q.month_actions >= 1) {
 Q.has_event = 0;
 // check if there are any cards in #event, and then go to main if not.
 var scene = this.game.scenes['post_event.events_choice'];
-var choices = this._compileChoices(scene);
+var choices = this._compileChoices1(scene);
 if (choices && choices[0].title != "Next...") {
     Q.has_event = 1;
 } else {

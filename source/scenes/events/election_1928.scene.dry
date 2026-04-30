@@ -657,6 +657,7 @@ go-to: coalition_formation_start
 
 
 @coalition_formation_start
+title: Form the coalition if possible.
 on-arrival: {!
 // ============================================
 // BUILD LIST OF PARTIES BY VOTE SHARE

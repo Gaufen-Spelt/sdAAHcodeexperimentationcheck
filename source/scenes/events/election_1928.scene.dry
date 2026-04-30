@@ -2706,7 +2706,7 @@ if (Q.all_attempts_failed) {
     Q.no_majority_elections++; // Increment counter
 }
 !}
-go-to: call_new_elections if all_attempts_failed and no_majority_elections < 2; presidential_crisis if all_attempts_failed and no_majority_elections >= 2; next_formateur_attempt if not all_attempts_failed
+go-to: call_new_elections if no_majority_elections; next_formateur_attempt if not all_attempts_failed
 
 @next_formateur_attempt
 

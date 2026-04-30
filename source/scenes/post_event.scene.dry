@@ -460,6 +460,166 @@ if (Q.month_actions >= 1) {
             Q.catholics_spd -= 6/12;
         }
     }
+
+// === PARTY RELATIONS DYNAMIC PATCH (runs every tick) ===
+
+// KPD
+Q.party_relations.KPD.SPD  = Q.kpd_relation;
+Q.party_relations.KPD.SRPD = Q.kpd_relation + 5;
+Q.party_relations.KPD.SAPD = 40 + (Q.kpd_party_leader === "Conciliators" ? 20 : 0);
+
+// SAPD
+Q.party_relations.SAPD.SPD = 55 + (Q.left_strength >= 50 ? 15 : 0);
+Q.party_relations.SAPD.KPD = 40 + (Q.kpd_party_leader === "Conciliators" ? 20 : 0);
+
+// SPD
+Q.party_relations.SPD.KPD  = Q.kpd_relation;
+Q.party_relations.SPD.DDP  = Q.ddp_relation;
+Q.party_relations.SPD.Z    = Q.z_relation;
+Q.party_relations.SPD.BVP  = Q.bvp_relation  ?? 35;
+Q.party_relations.SPD.DVP  = Q.dvp_relation;
+Q.party_relations.SPD.CSRP = Q.csrp_relation;
+Q.party_relations.SPD.WP   = Q.wp_relation   ?? 25;
+Q.party_relations.SPD.CNBL = Q.cnbl_relation  ?? 20;
+Q.party_relations.SPD.CSVD = Q.csvd_relation  ?? 35;
+Q.party_relations.SPD.DNVP = Q.dnvp_relation;
+Q.party_relations.SPD.VRP  = Q.vrp_relation   ?? 20;
+Q.party_relations.SPD.NSDAP= Q.nsdap_relation;
+Q.party_relations.SPD.KVP  = Q.kvp_relation;
+Q.party_relations.SPD.DHP  = Q.dhp_relation;
+Q.party_relations.SPD.BB   = Q.bb_relation;
+Q.party_relations.SPD.DVFP = Q.dvfp_relation;
+
+// SRPD
+Q.party_relations.SRPD.KPD  = Q.kpd_relation - 10;
+Q.party_relations.SRPD.DDP  = Q.ddp_relation + 10;
+Q.party_relations.SRPD.Z    = Q.z_relation + 5;
+Q.party_relations.SRPD.BVP  = (Q.bvp_relation  ?? 35) + 5;
+Q.party_relations.SRPD.DVP  = Q.dvp_relation - 5;
+Q.party_relations.SRPD.CSRP = Q.csrp_relation + 5;
+Q.party_relations.SRPD.WP   = (Q.wp_relation   ?? 25) - 5;
+Q.party_relations.SRPD.CNBL = (Q.cnbl_relation  ?? 20) + 5;
+Q.party_relations.SRPD.CSVD = (Q.csvd_relation  ?? 35) + 5;
+Q.party_relations.SRPD.DNVP = Q.dnvp_line === 3 ? 0 : Q.dnvp_relation - 10;
+
+// DDP
+Q.party_relations.DDP.SPD  = Q.ddp_relation;
+Q.party_relations.DDP.SRPD = Q.ddp_relation + 10;
+Q.party_relations.DDP.DVP  = 65 - (Q.dvp_right_shift ?? 0) * 10;
+
+// Z
+Q.party_relations.Z.SPD    = Q.z_relation;
+Q.party_relations.Z.SRPD   = Q.z_relation + 5;
+Q.party_relations.Z.DVP    = 60 + (Q.z_party_leader === "Kaas" ? 10 : 0);
+Q.party_relations.Z.DNVP   = (Q.dnvp_line === 3 ? 20 : 50) + (Q.z_party_leader === "Kaas" ? 15 : -10);
+Q.party_relations.Z.NSDAP  = Q.nazi_urgency >= 7 ? 0 : Math.max(0, 25 - Q.nazi_urgency * 5);
+
+// BVP
+Q.party_relations.BVP.SPD   = Q.bvp_relation ?? 35;
+Q.party_relations.BVP.SRPD  = (Q.bvp_relation ?? 35) + 5;
+Q.party_relations.BVP.NSDAP = Math.max(0, 15 - Q.nazi_urgency * 3);
+
+// DVP
+Q.party_relations.DVP.SPD   = Q.dvp_relation;
+Q.party_relations.DVP.SRPD  = Q.dvp_relation - 5;
+Q.party_relations.DVP.DDP   = 65 - (Q.dvp_right_shift ?? 0) * 10;
+Q.party_relations.DVP.Z     = 60 + (Q.z_party_leader === "Kaas" ? 10 : 0);
+Q.party_relations.DVP.DNVP  = 50 + (Q.dvp_right_shift ?? 0) * 15;
+Q.party_relations.DVP.NSDAP = 20 + (Q.capital_strike_progress * 6) + (Q.dvp_right_shift ?? 0) * 12;
+
+// WP
+Q.party_relations.WP.SPD   = Q.wp_relation ?? 25;
+Q.party_relations.WP.SRPD  = (Q.wp_relation ?? 25) - 5;
+Q.party_relations.WP.NSDAP = 35 + (Q.capital_strike_progress * 4);
+
+// CNBL
+Q.party_relations.CNBL.SPD   = Q.cnbl_relation ?? 20;
+Q.party_relations.CNBL.SRPD  = (Q.cnbl_relation ?? 20) + 5;
+Q.party_relations.CNBL.NSDAP = 30 + (Q.capital_strike_progress * 4) + (Q.year >= 1930 ? 10 : 0);
+
+// CSVD
+Q.party_relations.CSVD.SPD  = Q.csvd_relation ?? 40;
+Q.party_relations.CSVD.SRPD = (Q.csvd_relation ?? 40) + 5;
+Q.party_relations.CSVD.DNVP = Q.dnvp_line === 3 ? 5 : 55;
+
+// DNVP
+Q.party_relations.DNVP.SPD  = Q.dnvp_relation;
+Q.party_relations.DNVP.SRPD = Q.dnvp_relation - 5;
+Q.party_relations.DNVP.DDP  = Q.dnvp_line === 3 ? 5 : 30;
+Q.party_relations.DNVP.Z    = (Q.dnvp_line === 3 ? 20 : 50) + (Q.z_party_leader === "Kaas" ? 15 : -10);
+Q.party_relations.DNVP.CSVD = Q.dnvp_line === 3 ? 5 : 55;
+Q.party_relations.DNVP.NSDAP= Q.dnvp_line === 3 ? 70 : 40;
+Q.party_relations.DNVP.KVP  = Q.dnvp_line === 3 ? 5 : 60;
+Q.party_relations.DNVP.DHP  = Q.dnvp_line === 3 ? 15 : 55;
+
+// NSDAP
+Q.party_relations.NSDAP.Z    = Q.nazi_urgency >= 7 ? 0 : Math.max(0, 20 - Q.nazi_urgency * 4);
+Q.party_relations.NSDAP.BVP  = Math.max(0, 15 - Q.nazi_urgency * 3);
+Q.party_relations.NSDAP.DVP  = 20 + (Q.capital_strike_progress * 5) + (Q.dvp_right_shift ?? 0) * 10;
+Q.party_relations.NSDAP.WP   = 30 + (Q.capital_strike_progress * 3);
+Q.party_relations.NSDAP.DNVP = Q.dnvp_line === 3 ? 70 : 40;
+Q.party_relations.NSDAP.VRP  = 25 + (Q.capital_strike_progress * 3);
+
+// VRP
+Q.party_relations.VRP.SPD  = Q.vrp_relation;
+Q.party_relations.VRP.DNVP = Q.dnvp_line === 3 ? 10 : 35;
+
+
+
+
+// === COALITION BLOCKS DYNAMIC PATCH (runs every tick) ===
+
+if (!Q.coalition_blocks) {
+    // Blocks not initialized yet — skip patch this tick
+} else {
+
+Q.coalition_blocks.KPD_Z     = Q.z_relation < 65 || Q.kpd_relation < 65;
+Q.coalition_blocks.KPD_DDP   = Q.kpd_relation < 65;
+Q.coalition_blocks.KPD_SPD   = Q.communist_coalition < 3;
+
+Q.coalition_blocks.SPD_DNVP  = Q.dnvp_relation < 60 || Q.dnvp_line === 3;
+Q.coalition_blocks.SPD_KPD   = Q.communist_coalition < 3;
+Q.coalition_blocks.SPD_VRP   = Q.vrp_relation < 35;
+
+Q.coalition_blocks.SRPD_KPD  = Q.kpd_relation < 40;
+Q.coalition_blocks.SRPD_DNVP = Q.dnvp_line === 3;
+Q.coalition_blocks.SRPD_VRP  = Q.vrp_relation < 30;
+
+Q.coalition_blocks.DDP_DNVP  = Q.dnvp_line === 3;
+
+Q.coalition_blocks.Z_KPD     = Q.kpd_relation < 65 || Q.z_relation < 45;
+Q.coalition_blocks.Z_NSDAP   = Q.nazi_urgency >= 6;
+Q.coalition_blocks.Z_DNVP    = Q.dnvp_line === 3 && Q.z_party_leader !== "Kaas";
+
+Q.coalition_blocks.BVP_NSDAP = Q.nazi_urgency >= 6;
+
+Q.coalition_blocks.DVP_NSDAP = Q.nazi_urgency >= 7 && Q.capital_strike_progress < 4;
+Q.coalition_blocks.DVP_VRP   = Q.dvp_right_shift >= 2;
+
+Q.coalition_blocks.WP_NSDAP  = Q.capital_strike_progress < 5;
+
+Q.coalition_blocks.CNBL_SPD  = Q.cnbl_relation < 30;
+
+Q.coalition_blocks.DNVP_SPD  = Q.dnvp_line === 3 || Q.dnvp_relation < 40;
+Q.coalition_blocks.DNVP_DDP  = Q.dnvp_line === 3;
+Q.coalition_blocks.DNVP_Z    = Q.dnvp_line === 3 && Q.z_party_leader !== "Kaas";
+Q.coalition_blocks.DNVP_VRP  = Q.dnvp_line === 3;
+
+Q.coalition_blocks.NSDAP_BVP = Q.nazi_urgency >= 6;
+Q.coalition_blocks.NSDAP_Z   = Q.nazi_urgency >= 6;
+Q.coalition_blocks.NSDAP_COALITIONS_GENERALLY = Q.nsdap_r < 35 || Q.year < 1932;
+
+Q.coalition_blocks.VRP_DNVP  = Q.dnvp_line === 3;
+Q.coalition_blocks.VRP_DVP   = Q.dvp_right_shift >= 1;
+Q.coalition_blocks.VRP_SPD   = Q.vrp_relation < 35;
+
+Q.coalition_blocks.KVP_DNVP  = Q.dnvp_line === 3;
+
+Q.coalition_blocks.DHP_NSDAP = Q.nazi_urgency >= 5;
+
+Q.coalition_blocks.BB_NSDAP  = Q.nazi_urgency >= 7;
+
+}
 }
 Q.has_event = 0;
 // check if there are any cards in #event, and then go to main if not.

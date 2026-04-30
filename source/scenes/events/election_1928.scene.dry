@@ -714,34 +714,12 @@ Q.party_votes.sort(function(a, b) { return b.votes - a.votes; });
 var DEFAULT_THRESHOLD = -20; // score below this = president intervenes
 
 var largest = Q.party_votes[0].party;
-var largest_score = president_party_score(largest);
+Q.formateur = largest;
+Q.president_interfered = 0;
 
-if (largest_score <= DEFAULT_THRESHOLD) {
-    // President refuses largest party — scan for acceptable alternative
-    var best_alt = null;
-    var best_alt_score = -9999;
-
-    for (var i = 1; i < Q.party_votes.length; i++) {
-        var candidate = Q.party_votes[i].party;
-        var cscore = president_party_score(candidate);
-        // Must be meaningfully better than the one being bypassed
-        if (cscore > largest_score + 20 && cscore > DEFAULT_THRESHOLD) {
-            if (cscore > best_alt_score) {
-                best_alt = candidate;
-                best_alt_score = cscore;
-            }
-        }
-    }
-
-    if (best_alt) {
-        Q.formateur = best_alt;
-        Q.president_interfered = 1;
-        Q.president_bypass_reason = largest_score < -50 ? 'strong' : 'moderate';
-    }
-    // If no acceptable alt found, give mandate to largest anyway
-    // (president has no constitutional power to refuse indefinitely)
-} else {
-    Q.formateur = largest;
+// Guard: fallback if somehow empty
+if (!Q.formateur && Q.party_votes.length > 0) {
+    Q.formateur = Q.party_votes[0].party;
 }
 
 // Pre-calculate display strings
@@ -754,7 +732,7 @@ Q.first_party_votes = Q.party_votes[0].votes;
 Q.formation_round   = 1;
 Q.formation_attempts = [];
 
-Q.first_party_0 = Q.party_votes[0].party
+Q.first_party_0 = Q.party_votes[0].party;
 !}
 go-to: begin_negotiations
 
@@ -2173,20 +2151,7 @@ var best_score = -999;
 for (var i = 0; i < Q.chancellor_candidates.length; i++) {
     var candidate = Q.chancellor_candidates[i];
     var score = candidate.score; // Use pre-calculated score
-    
-    // Hindenburg preferences
-    if (Q.president === "Hindenburg") {
-    var spd_trust = Q.hindenburg_trust_spd || 50;
-    if (candidate.party === "SPD") score -= Math.max(0, 50 - spd_trust) * 1.2;
-    var cam = Q.camarilla_chancellor_scores || {};
-    score += (cam[candidate.name] || 0) * 0.5;
-        if (candidate.party === "Z") {
-            score += 10;
-        }
-        if (candidate.party === "DVP") {
-            score += 5;
-        }
-    }
+
     
     
     // Formateur bonus

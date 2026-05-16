@@ -281,6 +281,31 @@ for (var party of Q.parties) {
     election_result[party] = Q[party + '_r'];
 }
 Q.election_records.push(election_result);
+
+// Build parliament_diagram for status scene
+Q.parliament_diagram = [];
+var partyColors = {
+    kpd: "#8B0000", sapd: "#C40000", lb: "#6B0000", sl: "#005B96",
+    kpo: "#990000", spd: "#E3000F", srpd: "#FF6B6B", rdp: "#B8B000",
+    ddp: "#DCCA4A", cvp: "#1A1A1A", z: "#000000", bb: "#69A2BE",
+    bvp: "#69A2BE", csrp: "#FFCCFF", sls: "#4A7C59", aspd: "#B22222",
+    dhp: "#69A2BE", dvp: "#D5AC27", vrp: "#8B7355", wp: "#424242",
+    hl: "#2E8B57", vnr: "#4B5320", cnbl: "#5D4E37", csvd: "#3f7bc1",
+    kvp: "#3f7bc1", dnvp: "#3f7bc1", other: "#a0a0a0", nsdap: "#954B00",
+    dtsp: "#3B1A00", dvfp: "#1A0F00"
+};
+for (var party of Q.parties) {
+    var seats = Q[party + '_seats'] || 0;
+    if (seats > 0) {
+        Q.parliament_diagram.push({
+            id: party,
+            legend: party.toUpperCase(),
+            name: party.toUpperCase(),
+            seats: seats,
+            color: partyColors[party] || "#888888"
+        });
+    }
+}
 !}
 on-display: {!
 var partyData = [

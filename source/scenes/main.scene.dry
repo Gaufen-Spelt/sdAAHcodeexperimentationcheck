@@ -37,6 +37,27 @@ if (Q.advisor_action_timer <= 0) {
 Q.deckDescription = 'Колоды - нажмите на колоду чтобы взять карту.';
 Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
 !}
+on-display: {!
+data = Q.parliament_diagram;
+if (d3 && window && Q.started) {
+    var data = Q.parliament_diagram;
+    var screenWidth = document.getElementById('qualities').offsetWidth;
+
+    var width = Math.max(Math.min(screenWidth , 250), 120);
+    var heightRatio = screenWidth < 350 ? 0.5 : 0.6;
+    var height = width * heightRatio;
+
+    document.getElementById("reichstag_666").style.height = height + "px";
+
+    var reichstag_666 = d3.parliament();
+    reichstag_666.width(width)
+    reichstag_666.height(height)
+    reichstag_666.innerRadiusCoef(0.4)
+    reichstag_666.enter.fromCenter(false).smallToBig(false)
+    reichstag_666.exit.toCenter(false).bigToSmall(false);
+    d3.select("#reichstag_666").datum(data).call(reichstag_666);
+}
+!}
 max-cards: 4
 
 #Here, the main deck will be displayed. Clicking on the deck draws a card into your hand. Clicking on a card activates that card.

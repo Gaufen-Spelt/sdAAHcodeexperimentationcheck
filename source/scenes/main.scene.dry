@@ -11,6 +11,7 @@ if (Q.advisor_action_timer <= 0) {
 }
 Q.deckDescription = 'Колоды - нажмите на колоду чтобы взять карту.';
 Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
+Q.myRowDescription = 'BLUAAT';
 !}
 max-cards: 3
 

@@ -17,6 +17,7 @@ go-to: start_menu_2
 - @game_over.achievements
 
 @library_2
+is-special: true
 on-arrival: {!
 window.showStats();
 !}

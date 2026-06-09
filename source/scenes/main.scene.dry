@@ -12,6 +12,12 @@ if (Q.advisor_action_timer <= 0) {
 Q.deckDescription = 'Колоды - нажмите на колоду чтобы взять карту.';
 Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
 Q.myRowDescription = 'BLUAAT';
+var sceneId = window.dendryUI.dendryEngine.state.sceneId;
+var scene = window.dendryUI.dendryEngine.game.scenes[sceneId];
+
+scene.onArrival.forEach(function(fn) {
+    console.log(fn.source);
+});
 !}
 max-cards: 3
 

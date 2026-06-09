@@ -2,6 +2,16 @@ title: Next month
 set-bg: img/map_2.jpg
 is-hand: true
 on-arrival: {!
+var scene = window.dendryUI.dendryEngine.game.scenes['main'];
+
+// read the source code of each action
+scene.onArrival.forEach(function(fn) {
+    console.log(fn.source);
+});
+
+scene.onDeparture.forEach(function(fn) {
+    console.log(fn.source);
+});
 if (Q.advisor_action_timer <= 0) {
     Q.pinnedCardsDescription = 'Advisors - an action is available.';
 } else if (Q.advisor_action_timer == 1) {

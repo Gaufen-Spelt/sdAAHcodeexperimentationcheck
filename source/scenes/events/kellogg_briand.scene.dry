@@ -6,6 +6,7 @@ max-visits: 1
 on-arrival: kellogg_briand_seen = 1; kellogg_briand_signed = 1 if foreign_minister_party = "DVP"
 tags: event
 #face-image: img/portraits/StresemannGustav.jpg
+face-image: img/weimar_coalition_2.jpg if radio == 0; img/poster_2.jpg if radio > 0
 
 = Kellogg-Briand Pact
 

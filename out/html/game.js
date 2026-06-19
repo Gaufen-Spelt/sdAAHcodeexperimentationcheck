@@ -224,15 +224,6 @@
     }
 };
 
-  // Intercepts clicks on pinned cards that have been merged into the
-  // .decks row (see displayPinnedCards above). browser.js binds its own
-  // delegated handler on 'ul.decks li a' (bubble phase, via jQuery) that
-  // calls drawCard() -- wrong for these, since they're not real decks.
-  // game.js's main() always runs AFTER browser.js's _registerEvents, so a
-  // second bubble-phase handler here would fire too late, after drawCard()
-  // already ran. Instead we attach a native capture-phase listener on
-  // #content, which always runs before any bubble-phase handler regardless
-  // of registration order, letting us intercept and stop the click first.
   document.addEventListener('click', function(event) {
     var link = event.target.closest && event.target.closest('a[card-id]');
     if (!link) return;

@@ -171,7 +171,7 @@
     var normal = [];
     for (var card of cards) {
         var scene = scenes[card.id];
-        if (scene && scene.falseDeck) {
+        if (scene && scene.tags && scene.tags.indexOf('false-deck') !== -1) {
             deckLike.push(card);
         } else {
             normal.push(card);

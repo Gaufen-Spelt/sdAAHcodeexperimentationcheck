@@ -203,6 +203,9 @@
 
     // normal pinned cards: original separate pinned-cards list, unchanged.
     if (normal.length > 0) {
+        var pinnedCardsDescription = window.pinnedCardsDescription || 'Pinned cards - click a card to play.';
+        $('#content').append($('<hr>'));
+        $('#content').append($('<p>').addClass('pinned-text-description').text(pinnedCardsDescription));
         var $cardsEl = $('<ul>').addClass('pinned-cards');
         for (var card of normal) {
             var $cardEl = $('<li>').addClass('pinned-card');

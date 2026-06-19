@@ -158,6 +158,69 @@
     }
   };
 
+  // dendrynexus - custom card/deck display.
+  // Pinned cards normally render in their own separate list. A pinned
+  // card's scene can opt into rendering inside the .decks row instead by
+  // setting `falseDeck: true` on that scene in the game data. Cards
+  // without that flag keep the original separate pinned-cards list.
+  window.displayPinnedCards = function(cards) {
+    if (!cards || cards.length === 0) return null;
+    var scenes = window.dendryUI.dendryEngine.game.scenes;
+
+    var deckLike = [];
+    var normal = [];
+    for (var card of cards) {
+        var scene = scenes[card.id];
+        if (scene && scene.falseDeck) {
+            deckLike.push(card);
+        } else {
+            normal.push(card);
+        }
+    }
+
+    // deckLike cards: merge into the existing .decks row (creating it
+    // if displayDecks hasn't run / there were no real decks this turn).
+    if (deckLike.length > 0) {
+        var $decksEl = $('#content .decks').last();
+        if ($decksEl.length === 0) {
+            $decksEl = $('<ul>').addClass('decks');
+            $('#content').append($decksEl);
+        }
+        for (var card of deckLike) {
+            var $cardEl = $('<li>').addClass('deck pinned-card');
+            var $cardLink = $('<a>').addClass('card').attr({href: '#', 'card-id': card.id, title: card.title});
+            var $title = $('<span>').addClass('card-caption').text(card.title);
+            if (card.image) {
+                $cardLink.append($('<img>').addClass('card-img').attr({src: card.image}));
+            }
+            if (card.subtitle) {
+                $cardLink.append($('<span>').addClass('card-tooltip').text(card.subtitle));
+            }
+            $cardEl.append($cardLink).append($title);
+            $decksEl.append($cardEl);
+        }
+    }
+
+    // normal pinned cards: original separate pinned-cards list, unchanged.
+    if (normal.length > 0) {
+        var $cardsEl = $('<ul>').addClass('pinned-cards');
+        for (var card of normal) {
+            var $cardEl = $('<li>').addClass('pinned-card');
+            var $cardLink = $('<a>').addClass('card').attr({href: '#', 'card-id': card.id, title: card.title});
+            var $title = $('<span>').addClass('card-caption').text(card.title);
+            if (card.image) {
+                $cardLink.append($('<img>').addClass('card-img').attr({src: card.image}));
+            }
+            if (card.subtitle) {
+                $cardLink.append($('<span>').addClass('card-tooltip').text(card.subtitle));
+            }
+            $cardEl.append($cardLink).append($title);
+            $cardsEl.append($cardEl);
+        }
+        $('#content').append($cardsEl);
+    }
+};
+
   
   // This function allows you to modify the text before it's displayed.
   // E.g. wrapping chat-like messages in spans.

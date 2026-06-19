@@ -158,11 +158,6 @@
     }
   };
 
-  // dendrynexus - custom card/deck display.
-  // Pinned cards normally render in their own separate list. A pinned
-  // card's scene can opt into rendering inside the .decks row instead by
-  // setting `falseDeck: true` on that scene in the game data. Cards
-  // without that flag keep the original separate pinned-cards list.
   window.displayPinnedCards = function(cards) {
     if (!cards || cards.length === 0) return null;
     var scenes = window.dendryUI.dendryEngine.game.scenes;
@@ -178,8 +173,6 @@
         }
     }
 
-    // deckLike cards: merge into the existing .decks row (creating it
-    // if displayDecks hasn't run / there were no real decks this turn).
     if (deckLike.length > 0) {
         var $decksEl = $('#content .decks').last();
         if ($decksEl.length === 0) {
@@ -201,9 +194,14 @@
         }
     }
 
-    // normal pinned cards: original separate pinned-cards list, unchanged.
     if (normal.length > 0) {
-        var pinnedCardsDescription = window.pinnedCardsDescription || 'Pinned cards - click a card to play.';
+        var pinnedCardsDescription = 'Pinned cards - click a card to play.';
+        if (window.pinnedCardsDescription) {
+            pinnedCardsDescription = window.pinnedCardsDescription;
+        }
+        if (window.dendryUI.dendryEngine.state.qualities.pinnedCardsDescription) {
+            pinnedCardsDescription = window.dendryUI.dendryEngine.state.qualities.pinnedCardsDescription;
+        }
         $('#content').append($('<hr>'));
         $('#content').append($('<p>').addClass('pinned-text-description').text(pinnedCardsDescription));
         var $cardsEl = $('<ul>').addClass('pinned-cards');

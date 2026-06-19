@@ -1,5 +1,6 @@
 title: Rudolf Hilferding
-is-my-new-row-type: true
+falseDeck: true
+isPinnedCard: true
 tags: advisor, centrist
 card-image: img/portraits/HilferdingRudolf.jpg
 view-if: hilferding_advisor = 1

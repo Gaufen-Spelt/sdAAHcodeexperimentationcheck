@@ -1,11 +1,9 @@
 title: Rudolf Hilferding
-falseDeck: true
 isPinnedCard: true
-tags: advisor, centrist
+tags: advisor, centrist, false-deck
 card-image: img/portraits/HilferdingRudolf.jpg
 view-if: hilferding_advisor = 1
 new-page: true
-#face-image: img/portraits/HilferdingRudolf.jpg
 
 = Rudolf Hilferding
 

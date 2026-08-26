@@ -1,0 +1,10 @@
+title: 1928
+subtitle: ok
+tags: event
+view-if: {! Q.month >= 3 !}
+max-visits: 1
+new-page: true
+
+= Ok
+
+skibidi

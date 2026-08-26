@@ -3,7 +3,7 @@ subtitle: skubu
 tags: event
 max-visits: 1
 new-page: true
-view-if: {! Q.month >= 3 !}
+view-if: {! return Q.month >= 3 !}
 
 = Title
 

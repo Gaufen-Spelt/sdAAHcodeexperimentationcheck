@@ -1,6 +1,7 @@
 title: Status
 new-page: true
 is-hand: true
+style: spooky-scene
 on-arrival: {!
 if (Q.unemployed) {
     Q.unemployed_2 = Q.unemployed.toFixed(1);

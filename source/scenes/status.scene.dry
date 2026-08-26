@@ -90,8 +90,6 @@ Inflation: [+ inflation_2 +]%
 
 Economic growth: [+ economic_growth_2 +]%
 
-- @party
-- @govt
 - #advisor
 - @shuffle_leadership_pinned
 

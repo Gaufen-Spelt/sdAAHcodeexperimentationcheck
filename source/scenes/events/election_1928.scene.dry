@@ -1,6 +1,7 @@
 title: Reichstag Elections
 new-page: true
 tags: event
+style: spooky-scene
 priority: -2
 view-if: (year = next_election_year and month >= next_election_month) or (year > next_election_year)
 on-arrival: last_chancellor = chancellor; old_chancellor = chancellor

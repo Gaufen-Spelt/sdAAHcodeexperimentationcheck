@@ -3,7 +3,10 @@ subtitle: skubu
 tags: event
 max-visits: 1
 new-page: true
-view-if: {! return Q.month >= 3 !}
+view-if: {! return Q.month >= 3 
+setTimeout(() => {
+  window.dendryUI.dendryEngine.goToScene('main');
+}, 4000);!}
 
 = Title
 

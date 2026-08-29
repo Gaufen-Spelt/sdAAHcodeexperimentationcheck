@@ -5,8 +5,14 @@ on-arrival: {!
 Q.economic_growth -= 4;
 
 !}
+on-display: {!
+setTimeout(function() {
+  window.dendryUI.dendryEngine.goToScene('root');
+}, 4000);
+
+!}
 tags: event
-view-if: year = 1929 and month = 1
+view-if: year = 1928 and month = 4
 priority: 2
 max-visits: 1
 

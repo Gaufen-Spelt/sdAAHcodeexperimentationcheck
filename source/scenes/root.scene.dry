@@ -10,7 +10,7 @@ go-to: start_menu_2
 
 @start_menu_2
 on-arrival: {!
-this.setSprite('topLeft', 'img/ben.jpg');
+this.setSprite('bottomRight', 'img/protest.jpg');
 !}
 
 - @start: Start game

@@ -176,41 +176,6 @@
     }
   };
 
-  window.displayHand = function(hand, maxCards) {
-    var $handEl = $('.hand');
-    var hasOldHand = $handEl.length > 0;
-    if (!hasOldHand) {
-        $handEl = $('<ul>').addClass('hand');
-        $('#content').append($('<hr>'));
-        $('#content').append($('<p>').addClass('hand-description').text('Hand - click a card to play.'));
-    } else {
-        $handEl.empty();
-    }
-
-    for (var i = 0; i < maxCards; i++) {
-        var $cardEl = $('<li>').addClass('card-in-hand');
-        if (hand[i]) {
-            var card = hand[i];
-            var $cardLink = $('<a>').addClass('card').attr({href: '#', 'card-id': card.id, title: card.title});
-            var $title = $('<span>').addClass('card-caption').text(card.title);
-            if (card.image) {
-                $cardLink.append($('<img>').addClass('card-img').attr({src: card.image}));
-            }
-            if (card.subtitle) {
-                $cardLink.append($('<span>').addClass('card-tooltip').text(card.subtitle));
-            }
-            var $discardBtn = $('<span>').addClass('discard-btn').attr('card-id', card.id).text('×');
-            $cardEl.append($cardLink).append($title).append($discardBtn);
-        } else {
-            $cardEl.append($('<div>').addClass('blank-card'));
-        }
-        $handEl.append($cardEl);
-    }
-
-    if (!hasOldHand) {
-        $('#content').append($handEl);
-    }
-};
 
 document.addEventListener('click', function(event) {
     var btn = event.target.closest && event.target.closest('.discard-btn');

@@ -13,41 +13,27 @@
     ui = dendryUI;
     game = ui.game;
 
-    // TAG LIMITATIONS PART STARTS -------------
+    // MAX HAND SIZE PART STARTS -------------
 
-// Tag limits for hand
-var TAG_LIMITS = {
-    party_affairs: 3,
-    govt_affairs: 3
-};
+    var originalDrawCard = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
+    dendryUI.dendryEngine.drawCard = function(deckId) {
+        var engine = dendryUI.dendryEngine;
+        var currentSceneId = engine.state.sceneId;
+        var scene = engine.getCurrentScene();
+        var currentHand = engine.state.currentHands[currentSceneId] || [];
+        var maxCards = scene.maxCards;
 
-var originalDrawCard3 = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
-dendryUI.dendryEngine.drawCard = function(deckId) {
-    var engine = dendryUI.dendryEngine;
-    var currentSceneId = engine.state.sceneId;
-    var currentHand = engine.state.currentHands[currentSceneId] || [];
-
-    var card = engine._drawFromDeck(deckId);
-    if (!card) return {id: null, title: 'no_card_in_deck'};
-
-    for (var tag in TAG_LIMITS) {
-        var taggedIds = game.tagLookup[tag];
-        if (taggedIds && taggedIds[card.id]) {
-            var matches = currentHand.filter(function(c) { return taggedIds[c.id]; });
-            if (matches.length >= TAG_LIMITS[tag]) {
-                var oldest = matches[0]; // first drawn = oldest, assuming push() order
-                var idx = currentHand.indexOf(oldest);
-                currentHand.splice(idx, 1); // discard it
-            }
+        if (maxCards !== undefined && currentHand.length >= maxCards) {
+            var oldest = currentHand[0];
+            currentHand.splice(0, 1);
         }
-    }
-    return originalDrawCard3(deckId);
+
+        return originalDrawCard(deckId);
+    };
+    // MAX HAND SIZE PART ENDED HERE.
 };
-// TAG LIMITATIONS PART ENDED HERE.
 
-    // Add your custom code here.
-  };
-
+  
   var TITLE = "Social Democracy: An Alternate History" + '_' + "Autumn Chen";
 
   // the url is a link to game.json

@@ -9,6 +9,9 @@ go-to: start_menu_2
 = Social Democracy: An Alternate History
 
 @start_menu_2
+on-arrival: {!
+this.setSprite('topLeft', 'img/ben.jpg');
+!}
 
 - @start: Start game
 - @election_simulation: Election simulation

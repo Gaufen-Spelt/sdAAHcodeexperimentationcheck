@@ -176,18 +176,6 @@
     }
   };
 
-
-document.addEventListener('click', function(event) {
-    var btn = event.target.closest && event.target.closest('.discard-btn');
-    if (!btn) return;
-    var content = document.getElementById('content');
-    if (!content || !content.contains(btn)) return;
-    event.preventDefault();
-    event.stopPropagation();
-    var cardId = btn.getAttribute('card-id');
-    window.dendryUI.dendryEngine.discardCard(cardId);
-}, true);
-
   window.displayPinnedCards = function(cards) {
     if (!cards || cards.length === 0) return null;
     var scenes = window.dendryUI.dendryEngine.game.scenes;

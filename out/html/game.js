@@ -15,7 +15,19 @@
 
     // MAX HAND SIZE PART STARTS -------------
     var originalDrawCard = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
-    dendryUI.dendryEngine.drawCard = function(deckId) { ... };
+    dendryUI.dendryEngine.drawCard = function(deckId) {
+        var engine = dendryUI.dendryEngine;
+        var currentSceneId = engine.state.sceneId;
+        var scene = engine.getCurrentScene();
+        var currentHand = engine.state.currentHands[currentSceneId] || [];
+        var maxCards = scene.maxCards;
+
+        if (maxCards !== undefined && currentHand.length >= maxCards) {
+            currentHand.splice(0, 1);
+        }
+
+        return originalDrawCard(deckId);
+    };
     // MAX HAND SIZE PART ENDED HERE.
 
     // DISCARD PART STARTS -------------
@@ -176,6 +188,53 @@
     }
   };
 
+  window.displayHand = function(hand, maxCards) {
+    var $handEl = $('.hand');
+    var hasOldHand = $handEl.length > 0;
+    if (!hasOldHand) {
+        $handEl = $('<ul>').addClass('hand');
+        $('#content').append($('<hr>'));
+        $('#content').append($('<p>').addClass('hand-description').text('Hand - click a card to play.'));
+    } else {
+        $handEl.empty();
+    }
+
+    for (var i = 0; i < maxCards; i++) {
+        var $cardEl = $('<li>').addClass('card-in-hand');
+        if (hand[i]) {
+            var card = hand[i];
+            var $cardLink = $('<a>').addClass('card').attr({href: '#', 'card-id': card.id, title: card.title});
+            var $title = $('<span>').addClass('card-caption').text(card.title);
+            if (card.image) {
+                $cardLink.append($('<img>').addClass('card-img').attr({src: card.image}));
+            }
+            if (card.subtitle) {
+                $cardLink.append($('<span>').addClass('card-tooltip').text(card.subtitle));
+            }
+            var $discardBtn = $('<span>').addClass('discard-btn').attr('card-id', card.id).text('×');
+            $cardEl.append($cardLink).append($title).append($discardBtn);
+        } else {
+            $cardEl.append($('<div>').addClass('blank-card'));
+        }
+        $handEl.append($cardEl);
+    }
+
+    if (!hasOldHand) {
+        $('#content').append($handEl);
+    }
+};
+
+  document.addEventListener('click', function(event) {
+    var btn = event.target.closest && event.target.closest('.discard-btn');
+    if (!btn) return;
+    var content = document.getElementById('content');
+    if (!content || !content.contains(btn)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var cardId = btn.getAttribute('card-id');
+    window.dendryUI.dendryEngine.discardCard(cardId);
+}, true);
+  
   window.displayPinnedCards = function(cards) {
     if (!cards || cards.length === 0) return null;
     var scenes = window.dendryUI.dendryEngine.game.scenes;

@@ -13,6 +13,39 @@
     ui = dendryUI;
     game = ui.game;
 
+    // TAG LIMITATIONS PART STARTS -------------
+
+// Tag limits for hand
+var TAG_LIMITS = {
+    party_affairs: 3,
+    govt_affairs: 3
+};
+
+var originalDrawCard = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
+dendryUI.dendryEngine.drawCard = function(deckId) {
+    var engine = dendryUI.dendryEngine;
+    var currentSceneId = engine.state.sceneId;
+    var currentHand = engine.state.currentHands[currentSceneId] || [];
+
+    var card = engine._drawFromDeck(deckId);
+    if (!card) return {id: null, title: 'no_card_in_deck'};
+
+    for (var tag in TAG_LIMITS) {
+        var taggedIds = game.tagLookup[tag];
+        if (taggedIds && taggedIds[card.id]) {
+            var count = currentHand.filter(function(c) {
+                return taggedIds[c.id];
+            }).length;
+            if (count >= TAG_LIMITS[tag]) {
+                return {id: null, title: 'no_space_for_tag'};
+            }
+        }
+    }
+
+    return originalDrawCard(deckId);
+};
+// TAG LIMITATIONS PART ENDED HERE.
+
     // Add your custom code here.
   };
 

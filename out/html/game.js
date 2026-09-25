@@ -212,18 +212,6 @@
     }
 };
 
-  document.addEventListener('click', function(event) {
-    var link = event.target.closest && event.target.closest('a[card-id]');
-    if (!link) return;
-    var li = link.closest('li.pinned-card');
-    if (!li || !li.classList.contains('deck')) return;
-    var content = document.getElementById('content');
-    if (!content || !content.contains(li)) return;
-    event.preventDefault();
-    event.stopPropagation();
-    window.dendryUI.dendryEngine.playPinnedCard(link.getAttribute('card-id'));
-}, true);
-
 document.addEventListener('click', function(event) {
     var btn = event.target.closest && event.target.closest('.discard-btn');
     if (!btn) return;

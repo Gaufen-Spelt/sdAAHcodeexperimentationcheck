@@ -21,7 +21,7 @@ var TAG_LIMITS = {
     govt_affairs: 3
 };
 
-var originalDrawCard = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
+var originalDrawCard3 = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
 dendryUI.dendryEngine.drawCard = function(deckId) {
     var engine = dendryUI.dendryEngine;
     var currentSceneId = engine.state.sceneId;
@@ -33,15 +33,14 @@ dendryUI.dendryEngine.drawCard = function(deckId) {
     for (var tag in TAG_LIMITS) {
         var taggedIds = game.tagLookup[tag];
         if (taggedIds && taggedIds[card.id]) {
-            var count = currentHand.filter(function(c) {
-                return taggedIds[c.id];
-            }).length;
-            if (count >= TAG_LIMITS[tag]) {
-                return {id: null, title: 'no_space_for_tag'};
+            var matches = currentHand.filter(function(c) { return taggedIds[c.id]; });
+            if (matches.length >= TAG_LIMITS[tag]) {
+                var oldest = matches[0]; // first drawn = oldest, assuming push() order
+                var idx = currentHand.indexOf(oldest);
+                currentHand.splice(idx, 1); // discard it
             }
         }
     }
-
     return originalDrawCard(deckId);
 };
 // TAG LIMITATIONS PART ENDED HERE.

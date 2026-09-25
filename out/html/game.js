@@ -41,7 +41,7 @@ dendryUI.dendryEngine.drawCard = function(deckId) {
             }
         }
     }
-    return originalDrawCard(deckId);
+    return originalDrawCard3(deckId);
 };
 // TAG LIMITATIONS PART ENDED HERE.
 

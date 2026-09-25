@@ -347,6 +347,53 @@ div.blank-card {
   margin-bottom: 0.5em;
 }
 
+
+
+
+
+/* Discard button - small "×" overlay on each hand card */
+
+.discard-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2; /* sits above card-img */
+    user-select: none;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.discard-btn:hover {
+    background: rgba(200, 30, 30, 0.9);
+    transform: scale(1.15);
+}
+
+.discard-btn:active {
+    transform: scale(0.9);
+}
+
+/* Optional: dark mode variant, since you already have a dark-mode class on <body> */
+.dark-mode .discard-btn {
+    background: rgba(255, 255, 255, 0.25);
+    color: #eee;
+}
+.dark-mode .discard-btn:hover {
+    background: rgba(220, 60, 60, 0.9);
+}
+
+
+
+
+
 .card-in-hand, .pinned-card, .deck {
   display: inline-block;
   position: relative;

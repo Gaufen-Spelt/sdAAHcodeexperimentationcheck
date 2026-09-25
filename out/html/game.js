@@ -14,25 +14,25 @@
     game = ui.game;
 
     // MAX HAND SIZE PART STARTS -------------
-
     var originalDrawCard = dendryUI.dendryEngine.drawCard.bind(dendryUI.dendryEngine);
-    dendryUI.dendryEngine.drawCard = function(deckId) {
+    dendryUI.dendryEngine.drawCard = function(deckId) { ... };
+    // MAX HAND SIZE PART ENDED HERE.
+
+    // DISCARD PART STARTS -------------
+    dendryUI.dendryEngine.discardCard = function(cardId) {
         var engine = dendryUI.dendryEngine;
         var currentSceneId = engine.state.sceneId;
+        var currentHand = engine.state.currentHands[currentSceneId];
+        if (!currentHand) return false;
+        var idx = currentHand.findIndex(function(c) { return c.id === cardId; });
+        if (idx === -1) return false;
+        currentHand.splice(idx, 1);
         var scene = engine.getCurrentScene();
-        var currentHand = engine.state.currentHands[currentSceneId] || [];
-        var maxCards = scene.maxCards;
-
-        if (maxCards !== undefined && currentHand.length >= maxCards) {
-            var oldest = currentHand[0];
-            currentHand.splice(0, 1);
-        }
-
-        return originalDrawCard(deckId);
+        dendryUI.displayHand(currentHand, scene.maxCards);
+        return true;
     };
-    // MAX HAND SIZE PART ENDED HERE.
+    // DISCARD PART ENDED HERE.
 };
-
   
   var TITLE = "Social Democracy: An Alternate History" + '_' + "Autumn Chen";
 
@@ -175,6 +175,65 @@
         $('#light_mode')[0].checked = true;
     }
   };
+
+  window.displayHand = function(hand, maxCards) {
+    var $handEl = $('.hand');
+    var hasOldHand = $handEl.length > 0;
+    if (!hasOldHand) {
+        $handEl = $('<ul>').addClass('hand');
+        $('#content').append($('<hr>'));
+        $('#content').append($('<p>').addClass('hand-description').text('Hand - click a card to play.'));
+    } else {
+        $handEl.empty();
+    }
+
+    for (var i = 0; i < maxCards; i++) {
+        var $cardEl = $('<li>').addClass('card-in-hand');
+        if (hand[i]) {
+            var card = hand[i];
+            var $cardLink = $('<a>').addClass('card').attr({href: '#', 'card-id': card.id, title: card.title});
+            var $title = $('<span>').addClass('card-caption').text(card.title);
+            if (card.image) {
+                $cardLink.append($('<img>').addClass('card-img').attr({src: card.image}));
+            }
+            if (card.subtitle) {
+                $cardLink.append($('<span>').addClass('card-tooltip').text(card.subtitle));
+            }
+            var $discardBtn = $('<span>').addClass('discard-btn').attr('card-id', card.id).text('×');
+            $cardEl.append($cardLink).append($title).append($discardBtn);
+        } else {
+            $cardEl.append($('<div>').addClass('blank-card'));
+        }
+        $handEl.append($cardEl);
+    }
+
+    if (!hasOldHand) {
+        $('#content').append($handEl);
+    }
+};
+
+  document.addEventListener('click', function(event) {
+    var link = event.target.closest && event.target.closest('a[card-id]');
+    if (!link) return;
+    var li = link.closest('li.pinned-card');
+    if (!li || !li.classList.contains('deck')) return;
+    var content = document.getElementById('content');
+    if (!content || !content.contains(li)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    window.dendryUI.dendryEngine.playPinnedCard(link.getAttribute('card-id'));
+}, true);
+
+document.addEventListener('click', function(event) {
+    var btn = event.target.closest && event.target.closest('.discard-btn');
+    if (!btn) return;
+    var content = document.getElementById('content');
+    if (!content || !content.contains(btn)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var cardId = btn.getAttribute('card-id');
+    window.dendryUI.dendryEngine.discardCard(cardId);
+}, true);
 
   window.displayPinnedCards = function(cards) {
     if (!cards || cards.length === 0) return null;

@@ -457,6 +457,42 @@ a.card:focus .card-tooltip, a.card:hover .card-tooltip {
   object-fit: cover;
 }
 
+
+
+/* Leader/jester card styling */
+.actual-jester-card {
+    border: 2px solid green !important;
+}
+
+.shuffle-leadership-card {
+    border: 2px solid orange !important;
+}
+
+/* Divider between advisor cards and party leader cards */
+.leaders-divider-el {
+    border-top: 2px solid #4CAF50;
+    margin: 10px 0;
+    padding: 5px 0;
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--text-color);
+    clear: both;
+}
+
+/* Dark mode variant, consistent with your existing --text-color swap */
+.dark-mode .actual-jester-card {
+    border-color: #6fcf6f !important;
+}
+.dark-mode .shuffle-leadership-card {
+    border-color: #ffb74d !important;
+}
+.dark-mode .leaders-divider-el {
+    border-top-color: #6fcf6f;
+}
+
+
+
+
 /*
  * sprite stuff- feel free to comment out/remove if not using
  */

@@ -55,25 +55,65 @@ Q.deckDescription = 'Колоды - нажмите на колоду чтобы 
 Q.handDescription = 'Рука - нажмите на карточку чтобы разыграть её.';
 !}
 on-display: {!
-data = Q.parliament_diagram;
-if (d3 && window && Q.started) {
-    var data = Q.parliament_diagram;
-    var screenWidth = document.getElementById('qualities').offsetWidth;
+// SEPARATE LEADER CARDS FROM ADVISOR CARDS
+setTimeout(function() {
+    if (document.getElementById('leaders-divider')) return;
+    var content = document.getElementById('content');
+    if (!content) return;
 
-    var width = Math.max(Math.min(screenWidth , 250), 120);
-    var heightRatio = screenWidth < 350 ? 0.5 : 0.6;
-    var height = width * heightRatio;
+    var scenes = window.dendryUI.dendryEngine.game.scenes;
+    var pinnedItems = content.querySelectorAll('.pinned-card');
+    var leaderItems = [];
+    var shuffleItems = [];
 
-    document.getElementById("reichstag_666").style.height = height + "px";
+    pinnedItems.forEach(function(item) {
+        var link = item.querySelector('a[card-id]');
+        if (!link) return;
+        var cardId = link.getAttribute('card-id');
+        var scene = scenes[cardId];
+        if (!scene) return;
 
-    var reichstag_666 = d3.parliament();
-    reichstag_666.width(width)
-    reichstag_666.height(height)
-    reichstag_666.innerRadiusCoef(0.4)
-    reichstag_666.enter.fromCenter(false).smallToBig(false)
-    reichstag_666.exit.toCenter(false).bigToSmall(false);
-    d3.select("#reichstag_666").datum(data).call(reichstag_666);
-}
+        var tags = scene.tags || [];
+        var isShuffle = tags.indexOf('advisor') !== -1 || cardId.indexOf('shuffle_leadership_pinned') !== -1;
+        var isJester = !isShuffle && tags.indexOf('jester') !== -1;
+
+        if (isShuffle) {
+            shuffleItems.push(item);
+        } else if (isJester) {
+            leaderItems.push(item);
+        }
+    });
+
+    // Mark the shuffle/advisor card
+    shuffleItems.forEach(function(item) {
+        item.dataset.tags = (item.dataset.tags || '') + ' #advisor';
+        item.classList.add('shuffle-leadership-card');
+        item.title = 'Shuffle Leadership Card (Advisor)';
+    });
+
+    // Mark the actual jester/leader cards
+    leaderItems.forEach(function(item) {
+        item.dataset.tags = (item.dataset.tags || '') + ' #jester';
+        item.classList.add('actual-jester-card');
+        item.title = 'Actual Jester Card';
+    });
+
+    // Insert divider before the first leader card, if any exist
+    if (leaderItems.length > 0) {
+        var divider = document.createElement('div');
+        divider.id = 'leaders-divider';
+        divider.className = 'leaders-divider-el';
+        divider.textContent = 'Party Leaders - minor passive bonuses';
+
+        var firstLeader = leaderItems[0];
+        if (firstLeader && firstLeader.parentNode) {
+            firstLeader.parentNode.insertBefore(divider, firstLeader);
+        }
+    }
+
+    console.log('Found actual jesters:', leaderItems.length);
+    console.log('Found shuffle leadership cards:', shuffleItems.length);
+}, 0);
 !}
 max-cards: 4
 

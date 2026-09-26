@@ -35,6 +35,8 @@ max-cards: 3
 
 [? if year = 1928 and month = 2 : The current bourgeois-right government has fallen. The next elections are slated for May of this year. ?]
 
+{!<img src="img/ben.jpg" class="advisor-portrait" onclick="window.dendryUI.dendryEngine.goToScene('baade')">!}
+
 - @party
 - @govt
 - #advisor

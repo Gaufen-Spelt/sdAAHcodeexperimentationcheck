@@ -1,6 +1,7 @@
 title: Next month
 set-bg: img/map_2.jpg
 is-hand: true
+set-sprites: topLeft:img/ben.jpg, topRight:img/ben.jpg
 on-arrival: {!
 var scene = window.dendryUI.dendryEngine.game.scenes['main'];
 

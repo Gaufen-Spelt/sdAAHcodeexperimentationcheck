@@ -2,6 +2,10 @@ title: Next month
 set-bg: img/map_2.jpg
 is-hand: true
 set-sprites: topLeft:img/ben.jpg, topRight:img/ben.jpg
+set-top-left-style: {"opacity": "0.5"}
+set-top-right-style: {"filter": "grayscale(100%)"}
+set-bottom-left-style: {"transform": "scaleX(-1)"}
+set-bottom-right-style: {"display": "none"}
 on-arrival: {!
 var scene = window.dendryUI.dendryEngine.game.scenes['main'];
 

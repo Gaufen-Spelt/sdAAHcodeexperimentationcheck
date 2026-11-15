@@ -299,6 +299,35 @@
     }
 };
 
+  window.forceCard = function(cardId, handId) {
+  var E = dendryUI.dendryEngine;
+  handId = handId || E.state.sceneId;            // the hand scene
+  var cardScene = E.game.scenes[cardId];
+  var handScene = E.game.scenes[handId];
+  if (!cardScene || !handScene) return false;
+
+  var hands = E.state.currentHands;
+  var hand = hands[handId] = hands[handId] || [];
+
+  if (hand.some(function(c) { return c.id === cardId; })) return false; // already there
+  if (hand.length >= handScene.maxCards) return false;                  // full
+
+  hand.push({
+    id: cardId,
+    title: cardScene.title,
+    image: cardScene.cardImage      // raw value; resolved on display
+  });
+
+  // redraw only if that hand is on screen right now
+  if (handId === E.state.sceneId) {
+    var resolved = hand.map(function(c) {
+      return {id: c.id, title: c.title, image: E._resolveImage(c.image)};
+    });
+    E.ui.displayHand(resolved, handScene.maxCards);
+  }
+  return true;
+};
+
   document.addEventListener('click', function(event) {
     var link = event.target.closest && event.target.closest('a[card-id]');
     if (!link) return;
